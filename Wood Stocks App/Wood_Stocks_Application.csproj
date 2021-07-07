@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnotherClass.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="WoodStocks.cs">
       <SubType>Form</SubType>
