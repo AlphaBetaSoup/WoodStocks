@@ -1,6 +1,7 @@
 ﻿// namespaces being used for program.
 using System;
 using System.Windows.Forms;
+using Wood_Stocks_App;
 
 namespace Wood_Stocks_Application
 {
@@ -13,11 +14,13 @@ namespace Wood_Stocks_Application
         [STAThread]
         static void Main()
         {
+            AnotherClass something = new AnotherClass();
+            something.SomeMethod();
             // When appliaction is launched, program is entered through Main method.
             // WoodStocks user interface is opened through Application.Run(new WoodStocks());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WoodStocks());    
+            Application.Run(new WoodStocks());
         }
     }
 }
