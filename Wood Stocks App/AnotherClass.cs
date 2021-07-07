@@ -10,7 +10,7 @@ namespace Wood_Stocks_App
     {
 		public void SomeMethod()
 		{
-			Console.WriteLine("Amazing");
+			Console.WriteLine("Spectacular");
 			
 		}
     }

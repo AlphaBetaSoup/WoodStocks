@@ -15,15 +15,12 @@ namespace Wood_Stocks_Application
         static void Main()
         {
             AnotherClass something = new AnotherClass();
-
             something.SomeMethod();
             // When appliaction is launched, program is entered through Main method.
             // WoodStocks user interface is opened through Application.Run(new WoodStocks());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new WoodStocks());
-
-
         }
     }
 }
