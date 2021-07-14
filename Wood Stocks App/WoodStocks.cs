@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using Wood_Stocks_App;
@@ -141,20 +142,21 @@ namespace Wood_Stocks_Application
 
             // fileName selected in SaveFileDialog is stored in in string variable filePath.
             string filePath = SaveFileDialog.FileName;
-            // filePath is passed into WriteExternalFileCsv method and stored in result variable.
-            var result = stockDataBase.WriteExternalFileCsv(filePath);
-            // validation logic in WriteExternalFileCsv checks to see that file is written to location
-            // corretly and displays a message box to indicate whether it was or not.
-            if (result)
+            // methods called from DataBase class to write csv and xml file formats.
+            var resultCsv = stockDataBase.WriteExternalFileCsv(filePath);
+            var resultXml = stockDataBase.WriteExternalFileXml(filePath);
+            // validation logic in resultCsv and resultXml checks to see that file is written 
+            // to location corretly and displays a message box to indicate whether it was or not.
+            // a csv or xml file will will be checked in the if condition.
+            if (resultCsv || resultXml)
             {
                 MessageBox.Show("The file was saved.");
             }
             else
             {
                 MessageBox.Show("An error has occured. Please try again.");
-            }            
-        }
-         
+            }
+        }        
 
         private void XmlStyleButton1_Click(object sender, EventArgs e)
         {
@@ -169,32 +171,37 @@ namespace Wood_Stocks_Application
             }
             // XmlWriter class uses create method to create first style display for xml 
             // named "style1.xml" and stores in xmlWriter variable.
-            XmlWriter xmlWriter = XmlWriter.Create("style1.xml");
+            XmlWriterSettings settings = new XmlWriterSettings();
+            {
+                // encoding is set.
+                settings.Encoding = Encoding.Unicode;
+                // indentation is set.
+                settings.Indent = true;
+            }
+            XmlWriter xmlWriter = XmlWriter.Create("style1.xml",settings);
+
             // xmlWriter.WriteStartDocument method enables the xml file to start being written.
             xmlWriter.WriteStartDocument();
-            // xmlWriter.WriteStartElement method uses "document" as the starting tag for xml document.
+            // xmlWriter.WriteStartElement writes root element.
             xmlWriter.WriteStartElement("Stocks");
-            // for loop iterates through all the elements in stockDataBase using GetDataBaseSize method 
-            // in DataBase.
+            // for condition iterates through and gets data in stockDataBase.
             for (int i = 0; i < stockDataBase.GetDataBaseSize(); i++)
             {
-                // xmlWriter.WriteStartElement Stock tag is container for elements.
+                // xmlWriter.WriteStartElement writes parent elements.
                 xmlWriter.WriteStartElement("Stock");
-                // xmlWriter.WriteElementString method gets the container tag names from each column using
-                // GetStockObject method and stores the index from each column, accessing and storing the data
-                // for each column by using each columns get method.
+                // WriteElementString writes child elements.
                 xmlWriter.WriteElementString("ItemCode", stockDataBase.GetStockObject(i).GetItemCode());
                 xmlWriter.WriteElementString("ItemDescription", stockDataBase.GetStockObject(i).GetItemDescription());
                 xmlWriter.WriteElementString("CurrentCount", Convert.ToString(stockDataBase.GetStockObject(i).GetCurrentCount()));
                 xmlWriter.WriteElementString("OnOrder", stockDataBase.GetStockObject(i).GetYesOrNoOnOrder());
-                // xmlWriter.WriteEndElement closes the Stock tag container and data is held inside.
+                // WriteStartElement writes end of parent element.
                 xmlWriter.WriteEndElement();
             }
             // xmlWriter.Flush flushes stream and buffer.
             xmlWriter.Flush();
-            // xmlWriter.Close(); finishes and closes the writter.
+            // xmlWriter.Close(); finishes and closes the writer.
             xmlWriter.Close();
-            // new StreamReader containing "style1.xml" is stroed in the stream field.
+            // new StreamReader containing "style1.xml" is stored in the stream field.
             this.stream = new StreamReader("style1.xml");
             // webBrowser1.DocumentStream displays stream of "style1.xml" in browser display of application.
             WebBrowser1.DocumentStream = stream.BaseStream;
@@ -213,27 +220,24 @@ namespace Wood_Stocks_Application
             }
             // XmlWriter class uses create method to create first style display for xml 
             // named "style2.xml" and stores in xmlWriter variable.
-              XmlWriter xmlWriter = XmlWriter.Create("style2.xml");
-              // xmlWriter.WriteStartDocument method enables the xml file to start being written.
-              xmlWriter.WriteStartDocument();
-              // xmlWriter.WriteStartElement method uses "document" as the starting tag for xml document.
-              xmlWriter.WriteStartElement("Stocks");
-              // for loop iterates through all the elements in stockDataBase using GetDataBaseSize method 
-              // in DataBase.
-              for (int i = 0; i < stockDataBase.GetDataBaseSize(); i++)
-              {
-                // xmlWriter.WriteStartElement Stock tag is container for elements.
+            XmlWriter xmlWriter = XmlWriter.Create("style2.xml");
+            // xmlWriter.WriteStartDocument method enables the xml file to start being written.
+            xmlWriter.WriteStartDocument();
+            // WriteStartElement writes root element.
+            xmlWriter.WriteStartElement("Stocks");
+            // for condition iterates through and gets data in stockDataBase.
+            for (int i = 0; i < stockDataBase.GetDataBaseSize(); i++)
+            {
+                // WriteStartElement writes parent element.
                 xmlWriter.WriteStartElement("Stock");
-                  // xmlWriter.WriteAttributeString method gets the data for each column and stores it as an 
-                  // attribute using GetStockObject method, then accesses the get method for each column and 
-                  // storing the data from each index.
-                  xmlWriter.WriteAttributeString("OnOrder", stockDataBase.GetStockObject(i).GetYesOrNoOnOrder());
-                  xmlWriter.WriteAttributeString("CurrentCount", Convert.ToString(stockDataBase.GetStockObject(i).GetCurrentCount()));
-                  xmlWriter.WriteAttributeString("ItemDescription", stockDataBase.GetStockObject(i).GetItemDescription());
-                  xmlWriter.WriteAttributeString("ItemCode", stockDataBase.GetStockObject(i).GetItemCode());
-                  // xmlWriter.WriteEndElement closes the Stock tag container and data is held inside.
-                  xmlWriter.WriteEndElement();
-              }
+                // WriteElementString writes child elements.
+                xmlWriter.WriteAttributeString("OnOrder", stockDataBase.GetStockObject(i).GetYesOrNoOnOrder());
+                xmlWriter.WriteAttributeString("CurrentCount", Convert.ToString(stockDataBase.GetStockObject(i).GetCurrentCount()));
+                xmlWriter.WriteAttributeString("ItemDescription", stockDataBase.GetStockObject(i).GetItemDescription());
+                xmlWriter.WriteAttributeString("ItemCode", stockDataBase.GetStockObject(i).GetItemCode());
+                // WriteStartElement writes end of parent element.
+                xmlWriter.WriteEndElement();
+            }
               // xmlWriter.Flush flushes stream and buffer.
               xmlWriter.Flush();
               // xmlWriter.Close(); finishes and closes the writter.
@@ -246,3 +250,5 @@ namespace Wood_Stocks_Application
         }
     }
 }
+
+

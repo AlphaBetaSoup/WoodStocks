@@ -29,7 +29,7 @@ namespace Wood_Stocks_Application
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.DataGridView = new System.Windows.Forms.DataGridView();
             this.ItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,8 +52,8 @@ namespace Wood_Stocks_Application
             this.DataGridView.AllowUserToDeleteRows = false;
             this.DataGridView.AllowUserToResizeColumns = false;
             this.DataGridView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.NullValue = null;
-            this.DataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.NullValue = null;
+            this.DataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -152,7 +152,7 @@ namespace Wood_Stocks_Application
             // 
             // SaveFileDialog
             // 
-            this.SaveFileDialog.Filter = "Csv Files (*csv)|*csv";
+            this.SaveFileDialog.Filter = "Csv Files (*csv)|*csv| Xml Files (*xml)| *xml";
             this.SaveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveFileDialog_FileOk);
             // 
             // WebBrowser1
